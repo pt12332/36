@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Download ZIP Catalogues</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    body {
+      background: #000;
+      position: relative;
+      z-index: 1;
+      color: white;
+    }
+
+    .content-wrapper {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .card-custom {
+      background-color: #212529cc;
+      border: none;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0, 255, 128, 0.2);
+      padding: 40px 30px;
+      text-align: center;
+    }
+
+    .btn-custom {
+      padding: 15px 25px;
+      font-size: 18px;
+      border-radius: 50px;
+      transition: 0.3s;
+    }
+
+    .btn-custom:hover {
+      background-color: #198754;
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    .icon-download {
+      font-size: 22px;
+      margin-right: 10px;
+    }
+
+    h2 {
+      font-weight: 700;
+      margin-bottom: 30px;
+    }
+
+    p {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+
+<div class="content-wrapper">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card-custom">
+          <h2><i class="bi bi-folder2-open"></i> Download ZIP Catalogues</h2>
+          <p>Click the buttons below to download the compressed folders.</p>
+          <div class="d-grid gap-3">
+            <a href="Catalouge_Bun.rar" class="btn btn-success btn-custom" download>
+              <i class="bi bi-download icon-download"></i>Download Bun Catalogue
+            </a>
+            <a href="Catalouge_Mi.rar" class="btn btn-success btn-custom" download>
+              <i class="bi bi-download icon-download"></i>Download Mi Catalogue
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const canvas = document.getElementById('stars');
+  const ctx = canvas.getContext('2d');
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  let stars = [];
+  let hue = 0;
+
+  for (let i = 0; i < 150; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: Math.random() * 1.5 + 0.5,
+      dx: (Math.random() - 0.5) * 0.5,
+      dy: (Math.random() - 0.5) * 0.5
+    });
+  }
+
+  function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    hue += 0.5;
+    if (hue >= 360) hue = 0;
+
+    // Draw stars
+    for (let s of stars) {
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `hsl(${hue}, 100%, 70%)`;
+      ctx.shadowColor = `hsl(${hue}, 100%, 70%)`;
+      ctx.shadowBlur = 8;
+      ctx.fill();
+
+      s.x += s.dx;
+      s.y += s.dy;
+
+      if (s.x < 0 || s.x > canvas.width) s.dx *= -1;
+      if (s.y < 0 || s.y > canvas.height) s.dy *= -1;
+    }
+
+    // Draw connections
+    for (let i = 0; i < stars.length; i++) {
+      for (let j = i + 1; j < stars.length; j++) {
+        const dx = stars[i].x - stars[j].x;
+        const dy = stars[i].y - stars[j].y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < 100) {
+          ctx.beginPath();
+          ctx.strokeStyle = `hsla(${hue}, 100%, 75%, ${1 - distance / 100})`;
+          ctx.moveTo(stars[i].x, stars[i].y);
+          ctx.lineTo(stars[j].x, stars[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(drawStars);
+  }
+
+  drawStars();
+
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+</script>
+
+</body>
+</html>

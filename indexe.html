@@ -14,19 +14,45 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-    <style>
-        @media (max-width: 768px) {
-        .navbar { flex-direction: column; }
-        .movie-slider { overflow-x: scroll; }
-        }
-        .dropdown-item:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        .dropdown-item:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+
+        <style>
+        .nav-link {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            text-transform: capitalize;
+            letter-spacing: 0.5px;
         }
 
+        /* Movie slider styles */
+        .movie-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 16px;
+            padding-bottom: 10px;
+        }
+
+        .movie-item {
+            flex: 0 0 auto;
+            scroll-snap-align: start;
+            width: 220px;
+            height: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        .movie-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        /* Dropdown menu background blur */
         .dropdown-blur {
             background-color: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(10px);
@@ -35,6 +61,11 @@
             border-radius: 8px;
         }
 
+        .dropdown-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Product section */
         .product-section {
             padding: 50px 20px;
         }
@@ -44,9 +75,26 @@
             object-fit: cover;
             border-radius: 0.5rem;
         }
-    </style>
-</head>
 
+        /* ONLY animate collapse on mobile */
+        @media (max-width: 768px) {
+            .navbar-collapse {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.4s ease;
+            }
+
+            .navbar-collapse.show {
+            max-height: 500px;
+            opacity: 1;
+            }
+        }
+        </style>
+
+
+
+</head>
 
     <style>
         .dropdown-item:hover {
@@ -78,65 +126,71 @@
 
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-dark bg-transparent position-absolute w-100 px-5">
-        <a href="indexe.html" class="navbar-brand" href="#" style="display: flex; align-items: center;">
-            <img src="IMG/LOGO2.png" alt="Logo" height="60">
-            <p class="navbar-brand fs-3 fw-bold text-glow mb-0 ms-2" style="font-family: 'Great Vibes', cursive;">Phương
-                Hồng Diệu</p>
-        </a>
+ <nav class="navbar navbar-expand-lg navbar-dark bg-transparent px-4 py-2">
+  <div class="container-fluid d-flex align-items-center justify-content-between">
 
+    <!-- Logo -->
+    <a href="indexe.html" class="navbar-brand mb-0">
+      <img src="IMG/LOGO2.png" alt="Logo" height="50">
+    </a>
 
-        <div class="d-flex align-items-center justify-content-between w-100" style="max-width: 400px;">
+    <!-- Hamburger Button -->
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
+    <!-- Collapsible Menu -->
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+      <ul class="navbar-nav">
 
-            <!-- Product Menu -->
-            <div class="dropdown">
-                <button class="btn dropdown-toggle text-white" type="button" id="productDropdown"
-                    data-bs-toggle="dropdown" aria-expanded="false" style="border: none; background: transparent;">
-                    Products
-                </button>
+        <!-- Dropdown for Products -->
+       <li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle custom-nav-link" href="#" id="productDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="bi bi-box-seam me-1"></i> Products
+  </a>
+  <ul class="dropdown-menu dropdown-blur" aria-labelledby="productDropdown">
+    <li><a class="dropdown-item text-white" href="#bun">Rice Vermicelli</a></li>
+    <li><a class="dropdown-item text-white" href="#pho">Pho</a></li>
+    <li><a class="dropdown-item text-white" href="#banhtrang">Rice Paper</a></li>
+    <li><a class="dropdown-item text-white" href="#hutieu">Hu Tieu</a></li>
+    <li><a class="dropdown-item text-white" href="#hoanhthanh">Dried Wonton</a></li>
+    <li><a class="dropdown-item text-white" href="#my">Noodles</a></li>
+  </ul>
+</li>
 
-                <ul class="dropdown-menu dropdown-blur" aria-labelledby="productDropdown">
-                    <li><a class="dropdown-item text-white" href="#bun">Vermicelli</a></li>
-                    <li><a class="dropdown-item text-white" href="#pho">Pho</a></li>
-                    <li><a class="dropdown-item text-white" href="#banhtrang">Rice Paper</a></li>
-                    <li><a class="dropdown-item text-white" href="#hutieu">Hu Tieu</a></li>
-                    <li><a class="dropdown-item text-white" href="#hoanhthanh">Wonton</a></li>
-                    <li><a class="dropdown-item text-white" href="#my">Noodles</a></li>
-                </ul>
-            </div>
-
-            <!-- Contact Modal Button -->
-            <a href="#lienhe" class="btn btn-danger fw-semibold shadow-sm">
-    Contact Us
+<!-- Contact Highlighted -->
+<li class="nav-item">
+  <a href="#lienhe" class="nav-link custom-nav-link custom-contact-link">
+  <i class="bi bi-chat-dots-fill me-1"></i> Contact
 </a>
+</li>
 
-            <!-- Language Switch Dropdown -->
-            <div class="dropdown me-2">
-                <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center gap-1" type="button"
-                    id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
-                    <i class="bi bi-translate"></i>English
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end bg-dark text-white" aria-labelledby="languageDropdown">
-                    <li>
-                        <button class="dropdown-item text-white bg-transparent border-0 w-100 text-start"
-                            onclick="window.location.href='indexe.html'">
-                            English
-                        </button>
-                    </li>
-                    <li>
-                        <button class="dropdown-item text-white bg-transparent border-0 w-100 text-start"
-                            onclick="window.location.href='index.html'">
-                            Vietnamese
-                        </button>
-                    </li>
-                </ul>
+<!-- Language Switch -->
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle custom-nav-link" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="bi bi-translate me-1"></i> English
+  </a>
+  <ul class="dropdown-menu dropdown-menu-end dropdown-blur text-white" aria-labelledby="languageDropdown">
+    <li>
+      <button class="dropdown-item text-white bg-transparent border-0" onclick="window.location.href='indexe.html'">
+        English
+      </button>
+    </li>
+    <li>
+      <button class="dropdown-item text-white bg-transparent border-0" onclick="window.location.href='index.html'">
+        Tiếng Việt
+      </button>
+    </li>
+  </ul>
+</li>
 
-            </div>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-        </div>
-    </nav>
 
     <!-- Contact Modal -->
     <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
@@ -295,15 +349,17 @@
 
     <section class="movie-section bg-black text-white py-5">
         <div class="container position-relative">
-            <h3 class="mb-4">Our Products</h3>
+            <h2 class="text-center fw-bold display-5 mb-5" style="font-family: 'Dancing Script', cursive;">
+                Our Products
+                </h2>
 
             <!-- Left Button -->
             <button class="slider-btn left-btn" onclick="scrollSlider(-1)">&#10094;</button>
 
             <!-- Slider -->
             <!-- Slider -->
-            <div class="movie-slider d-flex overflow-hidden px-2" id="movieSlider">
-                <div class="movie-item item-1">
+                <div class="movie-slider d-flex px-2" id="movieSlider">
+                    <div class="movie-item">
                     <img src="IMG/banhpho-05.jpg" alt="Bánh Phở" class="movie-img">
                 </div>
                 <div class="movie-item item-2">
@@ -416,7 +472,7 @@
                 <!-- Social Media -->
                 <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mb-4">
                     <h6 class="text-uppercase fw-bold mb-4">Connect with Us</h6>
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex justify-content-center align-items-center gap-3">
                         <!-- Zalo -->
                         <a href="https://zalo.me/0937771956" target="_blank" class="me-3" title="Zalo">
                             <img src="IMG/logozalo.png" alt="Zalo"
@@ -494,17 +550,17 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-<script>
-  AOS.init({
-    duration: 10000, // animation duration (ms)
-    once: true // only animate once
-  });
-</script>
+    <script>
+        AOS.init({
+            duration: 10000, // animation duration (ms)
+            once: true // only animate once
+        });
+        </script>
 
-<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-<script>
-  AOS.init();
-</script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+         AOS.init();
+    </script>
+    </body>
 
-</html>
+    </html>

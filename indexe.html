@@ -223,11 +223,13 @@
     </div>
 
     <!-- Banner -->
-    <header class="banner">
-        <div class="banner-content text-white text-center">
-            <h1 class="display-3 fw-bold">Authentic Taste of Vietnam in Every Bite</h1>
-        </div>
-    </header>
+    <header class="cool-banner">
+                <div class="overlay"></div>
+                <canvas id="goldParticles"></canvas>
+                <div class="banner-content">
+                    <h1 class="cool-title">Authentic Taste of Vietnam in Every Bite</h1>
+                </div>
+            </header>
 
     <!-- Danh sách sản phẩm đầy đủ -->
     <!-- DS Bún -->
@@ -557,6 +559,47 @@
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script>
          AOS.init();
+         
+    </script>
+    <script>
+    // GOLD PARTICLES EFFECT
+    const canvas = document.getElementById("goldParticles");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+    for (let i = 0; i < 100; i++) {
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: Math.random() * 2 + 1,
+            color: "rgba(255,215,0,0.8)",
+            speedX: (Math.random() - 0.5) * 0.5,
+            speedY: (Math.random() - 0.5) * 0.5
+        });
+    }
+
+    function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+            p.x += p.speedX;
+            p.y += p.speedY;
+            if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+            if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+        });
+        requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
     </script>
     </body>
 

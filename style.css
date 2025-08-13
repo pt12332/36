@@ -215,4 +215,72 @@ body {
         0 0 10px #fff,
          0 0 20px #fff;
 }
+.cool-banner {
+    position: relative;
+    height: 100vh;
+    background: url('IMG/LOGO1.png') center/cover no-repeat;
+    overflow: hidden;
+}
+
+/* Dark overlay with animated gradient */
+.cool-banner .overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(0,0,0,0.7), rgba(0,0,0,0.95));
+    animation: overlayFade 2s ease forwards;
+    z-index: 2;
+}
+
+@keyframes overlayFade {
+    0% { opacity: 1; }
+    100% { opacity: 0.2; }
+}
+
+/* Text styling */
+.cool-title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-shadow: 0 0 30px gold, 0 0 60px rgba(255,215,0,0.6);
+    transform: scale(0.5) translateY(50px);
+    opacity: 0;
+    animation: titleReveal 3s ease forwards 1s; /* Slower fade-in */
+}
+
+@keyframes titleReveal {
+    0% {
+        transform: scale(0.5) translateY(50px);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1) translateY(0);
+        opacity: 1; /* Fully visible and stays */
+    }
+}
+
+
+/* Canvas particles */
+#goldParticles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.banner-content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
 
